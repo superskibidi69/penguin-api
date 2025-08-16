@@ -17,7 +17,7 @@ const penguins = [
   'https://penguin-api-superfood.vercel.app/.images/webpwebpwebpwebp.webp',
   "https://penguin-api-superfood.vercel.app/.images/miniahhhbooogh.jpeg",
   "https://penguin-api-superfood.vercel.app/.images/ok.jpeg",
-  "https://penguin-api-superfood.vercel.app/.images/avif.jpeg",
+  'https://penguin-api-superfood.vercel.app/.images/avif.jpeg',
   "https://penguin-api-superfood.vercel.app/.images/avif.png",
   "https://penguin-api-superfood.vercel.app/.images/pev.png",
   'https://penguin-api-superfood.vercel.app/.images/fish.jpg',
