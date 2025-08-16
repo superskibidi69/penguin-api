@@ -1,0 +1,5 @@
+name = "penguin-api"
+type = "javascript"
+
+# optional, but specifies entry-point
+main = "fetch.js"
