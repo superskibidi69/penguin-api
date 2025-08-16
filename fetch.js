@@ -24,6 +24,11 @@ const penguins = [
   'https://penguin-api-superfood.vercel.app/.images/poop.jpg',
   'https://penguin-api-superfood.vercel.app/.images/bloons.jpg',
   'https://penguin-api-superfood.vercel.app/.images/no.webp',
+  'https://penguin-api-superfood.vercel.app/.images/other.jpg',
+  'https://penguin-api-superfood.vercel.app/.images/fee.jpg',
+  'https://penguin-api-superfood.vercel.app/.images/biga.jpg',
+  'https://penguin-api-superfood.vercel.app/.images/kool.jpg',
+  'https://penguin-api-superfood.vercel.app/.images/new.jpg'
 ];
 
 async function handleRequest(_request) {
