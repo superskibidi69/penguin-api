@@ -1,13 +1,13 @@
 addEventListener("fetch", (event) => {
   event.respondWith(handleRequest(event.request));
 });
-const cdn_0 = Array.from({ length: 29 }, (_, id) =>
+const cdn_0 = Array.from({ length: 30 }, (_, id) =>
   `https://penguin-api-superfood.vercel.app/assets/${id}.jpg`
 );
-const cdn_1 = Array.from({ length: 29 }, (_, i) =>
+const cdn_1 = Array.from({ length: 30 }, (_, i) =>
   `https://cdn-penguins.netlify.app/assets/${i}.jpg`
 );
-const cdn_2 = Array.from({ length: 29 }, (_, i) =>
+const cdn_2 = Array.from({ length: 30 }, (_, i) =>
   `https://cdn-penguins2.netlify.app/static/${i}.jpg`
 );
 const penguins = [...cdn_0, ...cdn_1, ...cdn_2];
