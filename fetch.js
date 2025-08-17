@@ -25,28 +25,42 @@ async function handleRequest(request, event) {
     const randomUrl = penguins[Math.floor(Math.random() * penguins.length)];
     const cacheKey = new Request(randomUrl);
     let response = await cache.match(cacheKey);
+    let cacheStatus = "MISS";
     if (response) {
       console.log("cache hit:", randomUrl);
-      response = new Response(response.body, response);
-      response.headers.set("X-Cache-Status", "HIT");
-      response.headers.set("Access-Control-Allow-Origin", "*");
-      return response;
+      cacheStatus = "HIT";
+    } else {
+      console.log("cache miss:", randomUrl);
+      const data = { image: randomUrl, cache: "MISS" };
+      response = new Response(JSON.stringify(data), {
+        headers: {
+          "Content-Type": "application/json",
+          "Access-Control-Allow-Origin": "*",
+          "Access-Control-Allow-Methods": "GET,OPTIONS",
+          "Access-Control-Allow-Headers": "*",
+          "Cache-Control": `public, max-age=${CACHE_TTL}`,
+          "CDN-Cache-Control": `max-age=${CACHE_TTL}`,
+          "X-Cache-Status": "MISS",
+          "X-Penguin-URL": randomUrl,
+        },
+      });
+      event.waitUntil(cache.put(cacheKey, response.clone()));
     }
-    console.log("cache miss:", randomUrl);
-    const data = { image: randomUrl };
-    response = new Response(JSON.stringify(data), {
-      headers: {
-        "Content-Type": "application/json",
-        "Access-Control-Allow-Origin": "*",
-        "Access-Control-Allow-Methods": "GET,OPTIONS",
-        "Access-Control-Allow-Headers": "*",
-        "Cache-Control": `public, max-age=${CACHE_TTL}`,
-        "CDN-Cache-Control": `max-age=${CACHE_TTL}`,
-        "X-Cache-Status": "MISS",
-      },
-    });
-
-    event.waitUntil(cache.put(cacheKey, response.clone()));
+    if (cacheStatus === "HIT") {
+      const data = { image: randomUrl, cache: "HIT" };
+      response = new Response(JSON.stringify(data), {
+        headers: {
+          "Content-Type": "application/json",
+          "Access-Control-Allow-Origin": "*",
+          "Access-Control-Allow-Methods": "GET,OPTIONS",
+          "Access-Control-Allow-Headers": "*",
+          "Cache-Control": `public, max-age=${CACHE_TTL}`,
+          "CDN-Cache-Control": `max-age=${CACHE_TTL}`,
+          "X-Cache-Status": "HIT",
+          "X-Penguin-URL": randomUrl,
+        },
+      });
+    }
     return response;
   } catch (err) {
     return new Response(JSON.stringify({ error: err.message }), {
