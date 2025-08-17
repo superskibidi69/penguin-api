@@ -12,7 +12,7 @@ const cdn_2 = Array.from({ length: 29 }, (_, i) =>
 );
 const penguins = [...cdn_0, ...cdn_1, ...cdn_2];
 const RATE_LIMIT_WINDOW = 4_000; 
-const MAX_REQUESTS = 3;
+const MAX_REQUESTS = 6;
 const ipMap = new Map();
 async function handleRequest(request) {
   if (request.method === "OPTIONS") {
