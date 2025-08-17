@@ -1,6 +1,4 @@
 name = "penguin-api"
+type = "javascript"
 main = "fetch.js"
 compatibility_date = "2025-08-16"
-
-[[kv_namespaces]]
-binding = "PENGUIN_CACHE"

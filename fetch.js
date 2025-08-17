@@ -1,7 +1,6 @@
 addEventListener("fetch", (event) => {
   event.respondWith(handleRequest(event));
 });
-
 const cdn0 = Array.from({ length: 29 }, (_, id) =>
   `https://penguin-api-superfood.vercel.app/assets/${id}.jpg`
 );
@@ -9,25 +8,30 @@ const cdn1 = Array.from({ length: 26 }, (_, i) =>
   `https://cdn-penguins.netlify.app/assets/${i}.jpg`
 );
 const penguins = [...cdn0, ...cdn1];
+const GLOBAL_CACHE_NAME = 'global-penguin-cache';
+const CACHE_TTL = 6000;
 
 async function handleRequest(event) {
   try {
+    const cache = caches.default;
     const randomUrl = penguins[Math.floor(Math.random() * penguins.length)];
-    let cached = await PENGUIN_CACHE.get(randomUrl);
-    if (!cached) {
+    const cacheKey = new Request(randomUrl);
+    let response = await cache.match(cacheKey);
+    if (!response) {
       const data = { image: randomUrl };
-      cached = JSON.stringify(data);
-      await PENGUIN_CACHE.put(randomUrl, cached, { expirationTtl: 6000 });
+      response = new Response(JSON.stringify(data), {
+        headers: {
+          "Content-Type": "application/json",
+          "Access-Control-Allow-Origin": "*",
+          "Access-Control-Allow-Methods": "GET,OPTIONS",
+          "Access-Control-Allow-Headers": "*",
+          "Cache-Control": "public, max-age=6000",
+          "CDN-Cache-Control": `max-age=${CACHE_TTL}`
+        }
+      });
+      event.waitUntil(cache.put(cacheKey, response.clone()));
     }
-
-    return new Response(cached, {
-      headers: {
-        "Content-Type": "application/json",
-        "Access-Control-Allow-Origin": "*",
-        "Access-Control-Allow-Methods": "GET,OPTIONS",
-        "Access-Control-Allow-Headers": "*"
-      }
-    });
+    return response;
   } catch (err) {
     return new Response(JSON.stringify({ error: err.message }), {
       headers: { "Content-Type": "application/json" },
