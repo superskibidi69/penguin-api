@@ -1,5 +1,4 @@
 name = "penguin-api"
-type = "javascript"
 main = "fetch.js"
 compatibility_date = "2025-08-16"
 
