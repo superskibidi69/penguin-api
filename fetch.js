@@ -4,7 +4,7 @@ addEventListener("fetch", (event) => {
 const cdn_0 = Array.from({ length: 29 }, (_, id) =>
   `https://penguin-api-superfood.vercel.app/assets/${id}.jpg`
 );
-const cdn_1 = Array.from({ length: 26 }, (_, i) =>
+const cdn_1 = Array.from({ length: 29 }, (_, i) =>
   `https://cdn-penguins.netlify.app/assets/${i}.jpg`
 );
 const penguins = [...cdn_0, ...cdn_1];
