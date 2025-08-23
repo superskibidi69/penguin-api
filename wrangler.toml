@@ -1,7 +1,3 @@
 name = "penguin-api"
 main = "fetch.js"
 compatibility_date = "2025-08-16"
-
-[triggers]
-head_based_sampling = 1.0
-include_invocation_logs = true
